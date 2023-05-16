@@ -1,16 +1,5 @@
-// chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-//   if (request.action === 'getSelectedText') {
-//     var selectedText = window.getSelection().toString();
-//     sendResponse(selectedText);
-//   }
-// });
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.action === 'getSelectedText') {
-    var selectedText = window.getSelection().toString();
-    var tabUrl = window.location.href;
-    sendResponse({ text: selectedText, url: tabUrl });
-  }
+chrome.runtime.sendMessage({ action: 'getSelectedText' }, function (response) {
+  var selectedText = window.getSelection().toString();
+  var tabUrl = window.location.href;
+  chrome.runtime.sendMessage({ action: 'sendSelectedText', text: selectedText, url: tabUrl });
 });
-
-
-
